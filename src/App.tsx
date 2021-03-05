@@ -2,8 +2,8 @@
 /* eslint-disable no-alert */
 import React from 'react';
 
-import styles from './assets/stylesheets/index.scss';
 import GameBoard from './components/GameBoard/GameBoard';
+import styles from './style.scss';
 
 class App extends React.Component {
   constructor(props: any) {

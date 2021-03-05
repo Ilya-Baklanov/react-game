@@ -1,38 +1,17 @@
-/* eslint-disable no-plusplus */
-/* eslint-disable no-console */
-/* eslint-disable no-param-reassign */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable no-self-assign */
-/* eslint-disable no-nested-ternary */
-/* eslint-disable max-len */
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-/* eslint-disable @typescript-eslint/unbound-method */
-/* eslint-disable consistent-return */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/restrict-plus-operands */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/ban-types */
-/* eslint-disable camelcase */
-/* eslint-disable no-alert */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import React from 'react';
 
 import { motion, randomCell } from '@/Logic/logicGame';
 
 import NewGame from '../NewGame/NewGame';
+import Score from '../Score/Score';
 
-import { State } from './GameBoard.model';
+import { Props, State } from './GameBoard.model';
 import GridCell from './GridCell';
 import { Cell, ICell } from './GridCell.model';
 import styles from './style.scss';
-import Score from '../Score/Score';
 
-class GameBoard extends React.Component<{}, State> {
-  constructor(props: any) {
+class GameBoard extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       matrix: [
