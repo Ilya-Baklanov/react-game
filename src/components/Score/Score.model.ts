@@ -1,11 +1,9 @@
-type NewGame = () => void;
-
 type Props = {
-  newGame: NewGame;
+
 };
 
 type State = {
-
+  score: number;
 };
 
 export {

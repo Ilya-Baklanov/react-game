@@ -29,6 +29,7 @@ import { State } from './GameBoard.model';
 import GridCell from './GridCell';
 import { Cell, ICell } from './GridCell.model';
 import styles from './style.scss';
+import Score from '../Score/Score';
 
 class GameBoard extends React.Component<{}, State> {
   constructor(props: any) {
@@ -123,7 +124,10 @@ class GameBoard extends React.Component<{}, State> {
     const { matrix } = this.state;
     return (
       <React.Fragment>
-        <NewGame newGame={this.newGame} />
+        <div className={styles['user-panel']}>
+          <NewGame newGame={this.newGame} />
+          <Score />
+        </div>
         <div className={styles['grid-container']}>
           {
             matrix.flat().map(({

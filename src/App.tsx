@@ -1,12 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable no-alert */
 import React from 'react';
-import { connect } from 'react-redux';
 
 import styles from './assets/stylesheets/index.scss';
 import GameBoard from './components/GameBoard/GameBoard';
-// import { } from './redux/actions';
-// import { State } from './types/states.model';
 
 class App extends React.Component {
   constructor(props: any) {
@@ -18,22 +15,33 @@ class App extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
+      <div className={styles['app-wrapper']}>
         <h1 className={styles['title']}>2048</h1>
         <div className={styles['game-container']}>
           <GameBoard />
         </div>
-      </React.Fragment>
+        <footer className={styles['footer']}>
+          <a
+            className={styles['git-link']}
+            href="https://github.com/Ilya-Baklanov"
+          >
+            GitHub: Ilya-Baklanov
+          </a>
+          <span>2021</span>
+          <a
+            className={styles['link-logo']}
+            href="https://rs.school/js/"
+          >
+            <img
+              className={styles['logo']}
+              src="./assets/image/rs_school_js.svg"
+              alt="logo"
+            />
+          </a>
+        </footer>
+      </div>
     );
   }
 }
 
-const mapStateToProps = (/* state: State */): any => ({
-
-});
-
-const mapDispatchToProps = {
-
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;
