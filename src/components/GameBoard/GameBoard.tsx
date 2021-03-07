@@ -82,6 +82,7 @@ class GameBoard extends React.Component<Props, State> {
       const { matrix } = this.state;
       this.setState({ matrix: motion(e.key, matrix) });
     });
+    this.newGame();
   }
 
   newGame() {
