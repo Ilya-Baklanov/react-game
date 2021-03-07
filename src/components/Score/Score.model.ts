@@ -1,9 +1,9 @@
 type Props = {
-
+  score: number;
 };
 
 type State = {
-  score: number;
+
 };
 
 export {
