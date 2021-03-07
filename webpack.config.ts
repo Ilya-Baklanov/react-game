@@ -73,6 +73,17 @@ const config: Configuration = {
           },
         ],
       },
+      {
+        test: /\.(mp3)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              outputPath: 'assets/sound',
+            },
+          },
+        ],
+      },
       formStylesRule(false),
       formStylesRule(true),
       {

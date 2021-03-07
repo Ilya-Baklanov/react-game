@@ -8,6 +8,7 @@ type Props = {
 
 type State = {
   matrix: Matrix;
+  mute: boolean;
   score: number;
 };
 

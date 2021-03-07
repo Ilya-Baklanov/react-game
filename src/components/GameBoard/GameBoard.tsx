@@ -1,3 +1,4 @@
+/* eslint-disable no-void */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-fallthrough */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
@@ -15,6 +16,7 @@ import rotateMatrix from 'rotate-matrix';
 import { Matrix, Props, State } from '@/components/GameBoard/GameBoard.model';
 import { Cell, ICell } from '@/components/GameBoard/GridCell.model';
 
+import MuteButton from '../MuteButton/MuteButton';
 import NewGame from '../NewGame/NewGame';
 import Score from '../Score/Score';
 
@@ -22,6 +24,10 @@ import GridCell from './GridCell';
 import styles from './style.scss';
 
 class GameBoard extends React.Component<Props, State> {
+  cellSound = new Audio('../../assets/sound/cellSound.mp3');
+
+  loserLaugh = new Audio('../../assets/sound/loserLaugh.mp3');
+
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -83,6 +89,7 @@ class GameBoard extends React.Component<Props, State> {
           },
         ],
       ],
+      mute: false,
       score: 0,
     };
 
@@ -94,6 +101,8 @@ class GameBoard extends React.Component<Props, State> {
     this.removeEmptyCell = this.removeEmptyCell.bind(this);
     this.motion = this.motion.bind(this);
     this.scoreCounter = this.scoreCounter.bind(this);
+    this.soundHandler = this.soundHandler.bind(this);
+    this.muteToggle = this.muteToggle.bind(this);
   }
 
   componentDidMount() {
@@ -102,6 +111,19 @@ class GameBoard extends React.Component<Props, State> {
       this.setState({ matrix: this.motion(e.key, matrix) });
     });
     this.newGame();
+  }
+
+  soundHandler(type: string) {
+    // const [play] = useSound(cellSound);
+    const { mute } = this.state;
+    if (!mute) {
+      if (type === 'cell-motion') {
+        void this.cellSound.play();
+      }
+      if (type === 'fail') {
+        void this.loserLaugh.play();
+      }
+    }
   }
 
   randomRowIndex(motionType?: string): number {
@@ -160,7 +182,9 @@ class GameBoard extends React.Component<Props, State> {
         ? matrix[randomRow][randomColumn]!.value = 2
         : this.randomCell(matrix, motionType);
     } else {
+      this.soundHandler('fail');
       alert('YOU LOOOOOOOOOSE');
+      this.newGame();
     }
   }
 
@@ -244,6 +268,7 @@ class GameBoard extends React.Component<Props, State> {
     }), -rotateType);
 
     this.randomCell(normalMatrix, motionType);
+    this.soundHandler('cell-motion');
     return normalMatrix;
   }
 
@@ -262,12 +287,19 @@ class GameBoard extends React.Component<Props, State> {
     });
   }
 
+  muteToggle() {
+    const { mute } = this.state;
+    this.setState({ mute: !mute });
+  }
+
   render() {
-    const { matrix, score } = this.state;
+    const { matrix, mute, score } = this.state;
+    const { muteToggle } = this;
     return (
       <React.Fragment>
         <div className={styles['user-panel']}>
           <NewGame newGame={() => this.newGame()} />
+          <MuteButton muteToggle={muteToggle} isMute={mute} />
           <Score score={score} />
         </div>
         <div className={styles['grid-container']}>

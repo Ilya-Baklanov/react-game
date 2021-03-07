@@ -10,3 +10,8 @@ declare module '*.svg' {
 }
 
 declare module 'rotate-matrix';
+
+declare module '*.mp3' {
+  const sound: any;
+  export default sound;
+}
