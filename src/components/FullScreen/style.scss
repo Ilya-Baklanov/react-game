@@ -1,0 +1,29 @@
+.full-screen-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  background: none;
+  border: 0;
+}
+
+.full-screen-icon_inactive {
+  width: 50px;
+  height: 50px;
+}
+
+.full-screen-icon_inactive:hover {
+  width: 53px;
+  height: 53px;
+}
+
+.full-screen-icon_active {
+  width: 50px;
+  height: 50px;
+}
+
+.full-screen-icon_active:hover {
+  width: 47px;
+  height: 47px;
+}

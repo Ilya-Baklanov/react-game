@@ -7,6 +7,7 @@
 /* eslint-disable no-alert */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable no-param-reassign */
+import { cloneDeep } from 'lodash';
 import rotateMatrix from 'rotate-matrix';
 
 import { Matrix } from '@/components/GameBoard/GameBoard.model';
@@ -94,10 +95,23 @@ function calc(arr: any) {
       default: arr[i];
     }
   }
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i + 1] === 0 && arr[i] !== 0) {
-      arr[i + 1] = arr[i];
-      arr[i] = 0;
+  // for (let i = 0; i < arr.length; i++) {
+  //   if (arr[i + 1] === 0 && arr[i] !== 0) {
+  //     arr[i + 1] = arr[i];
+  //     arr[i] = 0;
+  //     i = 0;
+  //   }
+  // }
+  return arr;
+}
+
+function removeEmptyCell(arr: Cell[]) {
+  for (let i = 0; i < arr.length - 1; i++) {
+    if (arr[i + 1]!.value === 0 && arr[i]!.value !== 0) {
+      const nextCell = cloneDeep(arr[i + 1]);
+      const currentCell = cloneDeep(arr[i]);
+      arr[i + 1] = currentCell;
+      arr[i] = nextCell;
       i = 0;
     }
   }
@@ -126,9 +140,15 @@ function motion(motionType: string, matrix: Matrix) {
     default: rotateType = 4;
   }
   const rotationMatrix = rotateMatrix(matrix, rotateType);
-  const normalMatrix = rotateMatrix(rotationMatrix.map((cells: Cell[]) => {
+  const normalMatrix = rotateMatrix(rotationMatrix.map((cells: Cell[], rowIndex: number) => {
     const amountCellValues = calc(cells.map((cell: Cell) => cell?.value));
-    return amountCellValues.map((cellValue: number) => ({ row: 0, column: 0, value: cellValue }));
+    return removeEmptyCell(
+      amountCellValues.map((cellValue: number, columnIndex: number) => ({
+        row: rowIndex,
+        column: columnIndex,
+        value: cellValue,
+      }))
+    );
   }), -rotateType);
 
   randomCell(normalMatrix, motionType);

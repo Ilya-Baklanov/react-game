@@ -2,6 +2,7 @@
 /* eslint-disable no-alert */
 import React from 'react';
 
+import FullScreen from './components/FullScreen/FullScreen';
 import GameBoard from './components/GameBoard/GameBoard';
 import styles from './style.scss';
 
@@ -16,7 +17,10 @@ class App extends React.Component {
   render() {
     return (
       <div className={styles['app-wrapper']}>
-        <h1 className={styles['title']}>2048</h1>
+        <header className={styles['header']}>
+          <h1 className={styles['title']}>2048</h1>
+          <FullScreen />
+        </header>
         <div className={styles['game-container']}>
           <GameBoard />
         </div>

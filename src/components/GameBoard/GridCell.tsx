@@ -28,7 +28,7 @@ class GridCell extends PureComponent<Props, State> {
         const { innerNumber } = this.props;
         return {
           style: {
-            transform: `translate(${column}00px, ${row}00px)`,
+            transform: `translate(${0}00px, ${0}00px)`,
             backgroundColor: `rgb(255, ${230 - innerNumber * 7}, ${230 - innerNumber * 7})`,
           },
         };
