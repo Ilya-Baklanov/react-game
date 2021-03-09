@@ -8,3 +8,7 @@
   background-color: powderblue;
   border: none;
 }
+
+.mute_active:hover, .mute_inactive:hover {
+  box-shadow: 0 0 7px -1px red;
+}
