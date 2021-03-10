@@ -212,8 +212,8 @@ class GameBoard extends React.Component<Props, State> {
         arr[i - 2].value = 0;
       }
       if (arr[i - 1].value === 0
-          && arr[i - 2].value === 0
           && arr[i - 2] !== undefined
+          && arr[i - 2].value === 0
           && arr[i - 3] !== undefined
           && arr[i].value === arr[i - 3].value
       ) {
