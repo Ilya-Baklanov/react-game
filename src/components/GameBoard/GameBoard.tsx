@@ -113,7 +113,7 @@ class GameBoard extends React.Component<Props, State> {
     this.newGame();
   }
 
-  soundHandler(type: string) {
+  soundHandler = (type: string): void => {
     // const [play] = useSound(cellSound);
     const { mute } = this.state;
     if (!mute) {
@@ -124,9 +124,9 @@ class GameBoard extends React.Component<Props, State> {
         void this.loserLaugh.play();
       }
     }
-  }
+  };
 
-  randomRowIndex(motionType?: string): number {
+  randomRowIndex = (motionType?: string): number => {
     let row = null;
     switch (motionType) {
       case 'ArrowDown': {
@@ -148,9 +148,9 @@ class GameBoard extends React.Component<Props, State> {
       default: row = Math.floor(Math.random() * 4);
     }
     return row;
-  }
+  };
 
-  randomColumnIndex(motionType?: string): number {
+  randomColumnIndex = (motionType?: string): number => {
     let column = null;
     switch (motionType) {
       case 'ArrowDown': {
@@ -172,9 +172,9 @@ class GameBoard extends React.Component<Props, State> {
       default: column = Math.floor(Math.random() * 4);
     }
     return column;
-  }
+  };
 
-  randomCell(matrix: Matrix, motionType?: string) {
+  randomCell = (matrix: Matrix, motionType?: string): void => {
     if (matrix.flat().map(el => el?.value).includes(0)) {
       const randomRow = this.randomRowIndex(motionType);
       const randomColumn = this.randomColumnIndex(motionType);
@@ -186,42 +186,46 @@ class GameBoard extends React.Component<Props, State> {
       alert('YOU LOOOOOOOOOSE');
       this.newGame();
     }
-  }
+  };
 
-  scoreCounter(increment: number) {
+  private scoreCounter = (increment: number) => {
     const { score } = this.state;
     this.setState({ score: score + increment });
-  }
+  };
 
-  calc(arr: any) {
+  calc = (arr: any[]): any[] => {
     for (let i = arr.length - 1; i >= 0; i--) {
-      switch (true) {
-        case arr[i] === arr[i - 1]: {
-          arr[i] += arr[i - 1];
-          this.scoreCounter(arr[i]);
-          arr[i - 1] = 0;
-        }
-        case arr[i - 1] === 0: {
-          if (arr[i] === arr[i - 2]) {
-            arr[i] += arr[i - 2];
-            this.scoreCounter(arr[i]);
-            arr[i - 2] = 0;
-          }
-        }
-        case arr[i - 1] === 0 && arr[i - 2] === 0: {
-          if (arr[i] === arr[i - 3]) {
-            arr[i] += arr[i - 3];
-            this.scoreCounter(arr[i]);
-            arr[i - 3] = 0;
-          }
-        }
-        default: arr[i];
+      if (i === 0) {
+        return arr;
+      }
+      if (arr[i].value === arr[i - 1].value) {
+        arr[i].value += arr[i - 1].value;
+        this.scoreCounter(arr[i].value);
+        arr[i - 1].value = 0;
+      }
+      if (arr[i - 1].value === 0
+        && arr[i - 2] !== undefined
+        && arr[i].value === arr[i - 2].value
+      ) {
+        arr[i].value += arr[i - 2].value;
+        this.scoreCounter(arr[i].value);
+        arr[i - 2].value = 0;
+      }
+      if (arr[i - 1].value === 0
+          && arr[i - 2].value === 0
+          && arr[i - 2] !== undefined
+          && arr[i - 3] !== undefined
+          && arr[i].value === arr[i - 3].value
+      ) {
+        arr[i].value += arr[i - 3].value;
+        this.scoreCounter(arr[i].value);
+        arr[i - 3].value = 0;
       }
     }
     return arr;
-  }
+  };
 
-  removeEmptyCell(arr: Cell[]) {
+  removeEmptyCell = (arr: Cell[]): Cell[] => {
     for (let i = 0; i < arr.length - 1; i++) {
       if (arr[i + 1]!.value === 0 && arr[i]!.value !== 0) {
         const nextCell = cloneDeep(arr[i + 1]);
@@ -232,9 +236,9 @@ class GameBoard extends React.Component<Props, State> {
       }
     }
     return arr;
-  }
+  };
 
-  motion(motionType: string, matrix: Matrix) {
+  motion = (motionType: string, matrix: Matrix): Matrix => {
     let rotateType: number;
     switch (motionType) {
       case 'ArrowDown': {
@@ -257,12 +261,14 @@ class GameBoard extends React.Component<Props, State> {
     }
     const rotationMatrix = rotateMatrix(matrix, rotateType);
     const normalMatrix = rotateMatrix(rotationMatrix.map((cells: Cell[], rowIndex: number) => {
-      const amountCellValues = this.calc(cells.map((cell: Cell) => cell?.value));
+      const amountCellValues = this.calc(cells
+        .map((cell: Cell) => ({ value: cell.value, id: cell.id })));
       return this.removeEmptyCell(
-        amountCellValues.map((cellValue: number, columnIndex: number) => ({
+        amountCellValues.map((cell: any, columnIndex: number) => ({
           row: rowIndex,
           column: columnIndex,
-          value: cellValue,
+          value: cell.value,
+          id: cell.id,
         }))
       );
     }), -rotateType);
@@ -270,14 +276,14 @@ class GameBoard extends React.Component<Props, State> {
     this.randomCell(normalMatrix, motionType);
     this.soundHandler('cell-motion');
     return normalMatrix;
-  }
+  };
 
-  newGame() {
+  newGame = (): void => {
     const { matrix } = this.state;
     const newMatrix = matrix.map((elem: Cell[]) => elem.map((el: Cell) => ({
-      row: el!.row,
-      column: el!.column,
-      id: el!.id,
+      row: el.row,
+      column: el.column,
+      id: el.id,
       value: 0,
     })));
     this.randomCell(newMatrix);
@@ -285,12 +291,12 @@ class GameBoard extends React.Component<Props, State> {
     this.setState({
       matrix: newMatrix,
     });
-  }
+  };
 
-  muteToggle() {
+  muteToggle = (): void => {
     const { mute } = this.state;
     this.setState({ mute: !mute });
-  }
+  };
 
   render() {
     const { matrix, mute, score } = this.state;
@@ -307,8 +313,8 @@ class GameBoard extends React.Component<Props, State> {
             matrix.flat().map(({
               row, column, id, value,
             }: ICell) => (
-              <React.Fragment>
-                <div key={id} className={styles['grid-cell-background']}>
+              <React.Fragment key={id}>
+                <div className={styles['grid-cell-background']}>
                   <GridCell innerNumber={value} row={row} column={column} />
                 </div>
               </React.Fragment>

@@ -5,7 +5,7 @@ interface ICell {
   value: number;
 }
 
-type Cell = ICell | null;
+type Cell = ICell;
 
 type Props = {
   innerNumber: number;
