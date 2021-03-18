@@ -1,0 +1,41 @@
+.user-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 85%;
+  height: 50px;
+}
+
+.grid-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: space-between;
+  height: 475px;
+  width: 475px;
+  border: solid 0.7vw #bbada0;
+  padding: 5px;
+  background: #bbada0;
+}
+
+.grid-cell-background {
+  margin: 5px;
+  background-color: rgba(238, 228, 218, 0.35);
+  height: 100px;
+  width: 100px;
+  border-radius: 5px;
+}
+
+.grid-cell {
+  height: 100px;
+  width: 100px;
+  border-radius: 5px;
+  text-align: center;
+  line-height: 100px;
+  position: absolute;
+  transition-property: transform;
+  transition: 1s ease-in-out;
+  color: #6a4e4e;
+  font-weight: 900;
+}

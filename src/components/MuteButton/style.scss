@@ -1,0 +1,14 @@
+.mute_active {
+  background-color: salmon;
+  box-shadow: 0 0 21px 3px red;
+  border: none;
+}
+
+.mute_inactive {
+  background-color: powderblue;
+  border: none;
+}
+
+.mute_active:hover, .mute_inactive:hover {
+  box-shadow: 0 0 7px -1px red;
+}
